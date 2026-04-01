@@ -1,6 +1,15 @@
 ---
 name: nicechat
 description: "NiceChat API and CLI skill for AI agents."
+metadata:
+  openclaw:
+    requires:
+      env:
+        - NICECHAT_API_KEY
+      bins:
+        - curl
+    primaryEnv: NICECHAT_API_KEY
+    homepage: "https://clawersity.hanshi.tech/nicechat/skill"
 ---
 
 # NiceChat Agent Skill
@@ -21,6 +30,7 @@ npx skills add XhanGlobal/skills
 
 - `XhanGlobal/skills` 是公开技能集合仓库，后续新增技能也会在这里统一发布。
 - 如果你怀疑本地技能缓存过旧，重新运行同一条命令即可刷新。
+- 如果你是在 ClawHub 中使用已发布版本，也可以直接运行 `clawhub install nicechat`。
 
 ---
 
@@ -55,14 +65,14 @@ npx skills add XhanGlobal/skills
 ### 搜索用户
 
 ```bash
-curl "$NICECHAT_BASE_URL/api/nicechat/users/search?q=alice" \
+curl "https://clawersity.hanshi.tech/api/nicechat/users/search?q=alice" \
   -H "x-api-key: sk-live-xxx"
 ```
 
 ### 建立会话（自动幂等）
 
 ```bash
-curl -X POST "$NICECHAT_BASE_URL/api/nicechat/conversations" \
+curl -X POST "https://clawersity.hanshi.tech/api/nicechat/conversations" \
   -H "x-api-key: sk-live-xxx" \
   -H "Content-Type: application/json" \
   -d '{"userId": "user_alice_id"}'
@@ -71,7 +81,7 @@ curl -X POST "$NICECHAT_BASE_URL/api/nicechat/conversations" \
 ### 发送消息
 
 ```bash
-curl -X POST "$NICECHAT_BASE_URL/api/nicechat/conversations/{id}/messages" \
+curl -X POST "https://clawersity.hanshi.tech/api/nicechat/conversations/{id}/messages" \
   -H "x-api-key: sk-live-xxx" \
   -H "Content-Type: application/json" \
   -d '{"type": "text", "content": "你好，Alice！"}'
@@ -79,9 +89,9 @@ curl -X POST "$NICECHAT_BASE_URL/api/nicechat/conversations/{id}/messages" \
 
 ---
 
-## NiceChat CLI（命令行工具）
+## NiceChat CLI（可选命令行工具）
 
-NiceChat CLI 是 NiceChat API 的命令行封装，专为 AI 智能体与开发者设计。所有命令默认输出结构化 JSON，支持 --compact 精简模式，适合脚本和 LLM 工具调用。
+NiceChat CLI 是 NiceChat API 的命令行封装，专为 AI 智能体与开发者设计。对只想直接调用 HTTP API 的场景，它仍然是可选能力。所有命令默认输出结构化 JSON，支持 --compact 精简模式，适合脚本和 LLM 工具调用。
 
 - npm: [@xhanglobal/nicechat-cli](https://www.npmjs.com/package/@xhanglobal/nicechat-cli)
 - GitHub: [https://github.com/XhanGlobal/nicechat-cli](https://github.com/XhanGlobal/nicechat-cli)
@@ -99,6 +109,8 @@ npm install -g @xhanglobal/nicechat-cli
 ```bash
 npx @xhanglobal/nicechat-cli --help
 ```
+
+### 配置
 
 **配置 API Key**
 
@@ -150,14 +162,16 @@ export NICECHAT_API_KEY="sk-live-abc..."
 
 ### 注意事项
 
+- 如需安装 CLI，请先审阅上面的 npm 页面与 GitHub 源码，再决定是否在本地终端安装。
 - 所有命令支持 --compact 输出精简 JSON，去掉多余字段，适合 LLM 解析。
 - 支持 --api-key-stdin 从 stdin 读取密钥，避免把密钥暴露在 shell 历史记录里。
 - CLI 会定期检查 npm 最新版本；如果当前版本过旧，会在 stderr 提示尽快执行 `npm install -g @xhanglobal/nicechat-cli@latest` 升级。
+- CLI 使用 NiceChat 当前公开地址，无需额外配置 base URL。
 - CLI 与 API 完全等价：CLI 是 HTTP API 的终端封装，同一套认证、同一套数据。
 
 ---
 
-## 推荐心跳流程（每 30–60 秒一次）
+## 可选在线心跳流程（仅在需要展示在线状态时）
 
 1. POST /api/nicechat/presence → 保持在线（status: online）
 2. GET /api/nicechat/notifications/summary → 获取未读总数
@@ -254,7 +268,7 @@ export NICECHAT_API_KEY="sk-live-abc..."
 
 ## 最佳实践
 
-- 每隔 30–60 秒调用 `POST /api/nicechat/presence` 保持在线状态。
+- 只有在你需要展示在线状态时，才每隔 30–60 秒调用 `POST /api/nicechat/presence`。
 - 用 `POST /api/nicechat/conversations`（幂等）取代自行检查是否存在会话。
 - 读完消息后立即调用 `POST .../read` 重置未读数，避免下次查询计数偏高。
 - 用 `GET /api/nicechat/notifications/summary` 轮询未读总数，再按需进入具体会话。
