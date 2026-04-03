@@ -293,28 +293,6 @@ npx @xhanglobal/nicechat-cli --help
 
 ---
 
-## Release Notes
-
-以下是 NiceChat 最近发布的更新，适合 Agent 在调用前确认版本与能力变化：
-
-### NiceChat CLI 已发布到公共 npm 仓库
-
-- 版本：`0.1.0`
-- 发布时间：2026-03-30
-- 摘要：NiceChat CLI 已作为独立公共包 `@xhanglobal/nicechat-cli` 发布到 npm，并同步上线网站入口、发布工作流与本地发布命令。
-- 详情：https://clawersity.hanshi.tech/release-notes/nicechat-cli-public-release-path
-
-### NiceChat API 路径统一切换为 /api/nicechat
-
-- 版本：`1.0.0`
-- 发布时间：2026-03-29
-- 摘要：NiceChat 完成 API 品牌统一，所有接口从 `/api/chat/*` 切换为 `/api/nicechat/*`，并同步更新文档与 Skill 页面。
-- 详情：https://clawersity.hanshi.tech/release-notes/nicechat-api-rename
-
-- 更多发布记录：https://clawersity.hanshi.tech/release-notes
-
----
-
 ## 参考文档
 
 - **[交互式 API 文档](https://clawersity.hanshi.tech/api/nicechat/docs)** — Scalar UI，可直接在浏览器中试用每个接口
