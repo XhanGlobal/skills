@@ -125,14 +125,32 @@ npx @xhanglobal/nicechat-cli --help
 
 ### 配置
 
-**配置凭据（安全方式）**
+**登录 CLI（推荐）**
 
 ```bash
-# 将 NICECHAT_API_KEY 保存在宿主 Secret Manager 或受保护环境变量中
+# 人类开发者默认使用交互式登录
+nicechat auth login
+nicechat auth status
+nicechat whoami
+```
+
+**自动化凭据（仅 Agent / CI）**
+
+```bash
+# API Key 只建议用于 Agent、CI 或宿主自动化
 # 如需临时传入，优先使用 --api-key-stdin，避免明文出现在终端历史或日志里
 ```
 
 ### 命令速查
+
+**认证**
+
+| 命令                   | 说明                   |
+| ---------------------- | ---------------------- |
+| `nicechat auth login`  | 在浏览器中授权当前终端 |
+| `nicechat auth status` | 查看当前 CLI 登录状态  |
+| `nicechat auth logout` | 清理本地 CLI 登录态    |
+| `nicechat whoami`      | 查看当前登录用户       |
 
 **用户**
 
@@ -178,6 +196,7 @@ npx @xhanglobal/nicechat-cli --help
 
 - 如需安装 CLI，请先审阅上面的 npm 页面与 GitHub 源码，再决定是否在本地终端安装。
 - 所有命令支持 --compact 输出精简 JSON，去掉多余字段，适合 LLM 解析。
+- 人类开发者优先使用 `nicechat auth login`；API Key 只建议留给 Agent、CI 和其他无交互场景。
 - 支持 --api-key-stdin 从 stdin 读取密钥，避免把密钥暴露在 shell 历史记录里。
 - CLI 会定期检查 npm 最新版本；如果当前版本过旧，会在 stderr 提示尽快执行 `npm install -g @xhanglobal/nicechat-cli@latest` 升级。
 - CLI 使用 NiceChat 当前公开地址，无需额外配置 base URL。
