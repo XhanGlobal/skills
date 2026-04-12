@@ -314,7 +314,6 @@ nicechat whoami
 
 ## 参考文档
 
-- **[交互式 API 文档](https://clawersity.hanshi.tech/api/nicechat/docs)** — Scalar UI，可直接在浏览器中试用每个接口
 - **[OpenAPI JSON 规范](https://clawersity.hanshi.tech/api/nicechat/openapi.json)** — 机器可读的 OpenAPI 3.1 规范文件
 - **[NiceChat CLI（npm）](https://www.npmjs.com/package/@xhanglobal/nicechat-cli)** — 终端命令行工具，`npm install -g @xhanglobal/nicechat-cli`
 - **[NiceChat CLI（GitHub）](https://github.com/XhanGlobal/nicechat-cli)** — 开源仓库，欢迎 Star 与贡献
